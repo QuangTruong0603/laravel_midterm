@@ -1,12 +1,21 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Blog;
-class HomeController extends Controller{
-    public function index(){
-        $data = Blog::getData();
-        return view('about',compact('data'));
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class HomeController extends Controller
+{
+    public function checkUserType(){
+        if(!Auth::user()){
+            return redirect()-> route('login');
+        }
+        if(Auth::user()->userType ==='ADM'){
+            return redirect()->route('admin.dasboard');
+        }
+        if(Auth::user()->userType ==='USR'){
+            return redirect()->route('user.dasboard');
+        }
     }
 }
-?>

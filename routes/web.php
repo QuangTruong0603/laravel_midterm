@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,11 +14,33 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/welcome', function () {
-    return view('welcome');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', [HomeController::class, 'checkUserType']);
+
+// Route::get('/gioi-thieu', function () {
+//     return view('about');
+// });
+// Route::get('/about', 'HomeController@index');
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 });
 
-Route::get('/gioi-thieu', function () {
-    return view('about');
-});
-Route::get('/', 'HomeController@index');
+Route::get('/admin/dasboard', function () {
+    return view('admin-dasboard');
+})->name('admin.dasboard');
+
+Route::get('/user/dasboard', function () {
+    return view('user-dasboard');
+})->name('user.dasboard');
+
+
+
