@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,15 +13,33 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/welcome', function () {
     return view('welcome');
+});
+
+Route::get('/', 'HomeController@checkUserType');
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 });
 
 Route::get('/about', function () {
     return view('about');
 });
-Route::get('/', 'HomeController@index');
-Route::get('/data', 'HomeController@data');
-Route::get('/history', 'HomeController@history');
-Route::get('/statistics', 'HomeController@statistic');
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/data', 'HomeController@data')->name('data');
+Route::get('/history', 'HomeController@history')->name('history');
+Route::get('/statistics', 'HomeController@statistic')->name('statistics');
+
+Route::post('/home', 'HomeController@addSleep')->name('addSleep');
+Route::match(['put', 'patch'], '/home', 'HomeController@editSleep')->name('editSleep');
+Route::match(['delete'], '/home', 'HomeController@removeSleep')->name('removeSleep');
+
+
+Route::get('/adminHome', 'HomeController@adminHome')->name('adminHome');
