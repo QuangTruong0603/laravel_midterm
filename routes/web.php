@@ -17,7 +17,10 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 
-Route::get('/gioi-thieu', function () {
+Route::get('/about', function () {
     return view('about');
 });
 Route::get('/', 'HomeController@index');
+Route::get('/data', 'HomeController@data');
+Route::get('/history', 'HomeController@history');
+Route::get('/statistics', 'HomeController@statistic');
