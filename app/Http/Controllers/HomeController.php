@@ -32,15 +32,6 @@ class HomeController extends Controller
         $data = SleepTracker::getData($user->id);
         return view('home', compact('data', 'user'));
     }
-    public function adminHome()
-    {
-        if (!Auth::user()) {
-            return redirect()->route('login');
-        }
-        $data = SleepTracker::getData($user->id);
-        $user = Auth::user();
-        return view('home', compact('data', 'user'));
-    }
     public function data()
     {
         if (!Auth::user()) {

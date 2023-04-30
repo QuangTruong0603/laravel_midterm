@@ -32,6 +32,7 @@ Route::middleware([
 Route::get('/about', function () {
     return view('about');
 });
+
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/data', 'HomeController@data')->name('data');
 Route::get('/history', 'HomeController@history')->name('history');
@@ -41,5 +42,7 @@ Route::post('/home', 'HomeController@addSleep')->name('addSleep');
 Route::match(['put', 'patch'], '/home', 'HomeController@editSleep')->name('editSleep');
 Route::match(['delete'], '/home', 'HomeController@removeSleep')->name('removeSleep');
 
-
-Route::get('/adminHome', 'HomeController@adminHome')->name('adminHome');
+Route::get('/adminHome', 'AdminController@adminHome')->name('adminHome');
+Route::post('/adminHome', 'AdminController@addUser')->name('addUser');
+Route::match(['put', 'patch'], '/adminHome', 'AdminController@editUser')->name('editUser');
+Route::match(['delete'], '/adminHome', 'AdminController@removeUser')->name('removeUser');

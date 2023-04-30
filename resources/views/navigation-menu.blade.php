@@ -11,6 +11,16 @@
                 </div>
 
                 <!-- Navigation Links -->
+                @if (Auth::check() && Auth::user()->userType === 'ADM')
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                        {{ __('Dashboard') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('adminHome') }}" :active="request()->routeIs('adminHome')">
+                        {{ __('Admin Home') }}
+                    </x-nav-link>
+                </div>
+                @else
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
@@ -25,6 +35,7 @@
                         {{ __('Statistics') }}
                     </x-nav-link>
                 </div>
+                @endif
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">

@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
-
+use Illuminate\Support\Facades\Hash;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -59,4 +59,33 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+    public static function getAllData($id)
+    {
+        return self::whereNotIn('id', [$id])->get();
+    }
+    public static function addData($name, $email, $password, $userType)
+    {
+        $password=Hash::make($password);
+        return self::insert([
+            'name' => $name,
+            'email' => $email,
+            'password' => $password,
+            'userType' => $userType,
+        ]);
+    }
+
+    public static function updateData($id, $name, $email, $userType)
+    {
+        return self::where('id', $id)->update([
+            'name' => $name,
+            'email' => $email,
+            'userType' => $userType,
+        ]);
+    }
+
+    public static function deleteData($id)
+    {
+        $user = self::findOrFail($id);
+        return $user->delete();
+    }
 }
